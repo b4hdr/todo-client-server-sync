@@ -1,0 +1,29 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "TODO Application with Restful Synchronization",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server"
+  },
+  "keywords": [
+    "api",
+    "restful",
+    "json",
+    "restful synchronization",
+    "client server synchronization",
+    "synchronization"
+  ],
+  "author": "Bahadır Bora",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^3.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

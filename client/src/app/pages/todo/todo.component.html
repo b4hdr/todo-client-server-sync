@@ -1,0 +1,56 @@
+<p-card [styleClass]="'mb-3 mt-3'">
+  <form name="todo-form" #todoForm="ngForm" (ngSubmit)="todoForm.form.valid && add()" novalidate>
+    <div class="formgroup-inline">
+      <div class="field">
+        <label for="summary" class="p-sr-only">Summary</label>
+        <input id="summary" name="summary" type="text" pInputText placeholder="Summary" [(ngModel)]="newTodo.summary"
+          required>
+      </div>
+      <div class="field">
+        <label for="description" class="p-sr-only">Description</label>
+        <input id="description" name="description" type="text" pInputText placeholder="Description"
+          [(ngModel)]="newTodo.description">
+      </div>
+
+      <button pButton pRipple type="submit" label="Submit"></button>
+    </div>
+  </form>
+</p-card>
+
+<p-card [styleClass]="'mb-3'">
+  <div class="flex justify-content-evenly flex-wrap">
+    <button pButton pRipple type="button" label="All" (click)="filterByState('all')"></button>
+    <button pButton pRipple type="button" label="Active" (click)="filterByState('active')"></button>
+    <button pButton pRipple type="button" label="Completed" (click)="filterByState('completed')"></button>
+    <button pButton pRipple type="button" label="Sync" (click)="sync()"></button>
+  </div>
+</p-card>
+
+<p-card [styleClass]="'mb-3'" *ngFor="let todo of filteredTodos">
+  <div class="flex align-items-center">
+    <div class="flex-none align-items-center">
+      <i *ngIf="todo.isDirty" class="fas fa-sync-alt not-synced" [class]="isSyncing ? 'fa-spin' : ''"></i>
+      <i *ngIf="!todo.isDirty" class="fas fa-database synced"></i>
+    </div>
+
+    <div class="flex-grow-1 align-items-center pl-3 todo-item" (click)="toggleTodoState(todo)">
+      <div class="flex pb-1">
+        <i class="fas fa-quote-right"></i>
+        <span class="pl-1 font-bold" [class]="todo.isCompleted ? 'line-through' : ''">{{todo.summary}}</span>
+      </div>
+      <div class="flex pb-1" *ngIf="!!todo.description">
+        <i class="fas fa-align-center"></i>
+        <span class="pl-1" [class]="todo.isCompleted ? 'line-through' : ''">{{todo.description}}</span>
+      </div>
+      <div class="flex">
+        <i class="fas fa-clock"></i>
+        <span class="pl-1">{{todo.updateDate | date:'medium'}}</span>
+      </div>
+    </div>
+
+    <div class="flex-none align-items-center">
+      <button pButton pRipple icon="pi pi-trash" type="button" class="p-button-raised p-button-danger"
+        (click)="delete(todo)"></button>
+    </div>
+  </div>
+</p-card>

@@ -1,0 +1,43 @@
+<p-card [styleClass]="'mb-3 mt-3'">
+  <form name="todo-form" #todoForm="ngForm" (ngSubmit)="todoForm.form.valid && add()" novalidate>
+    <div class="formgroup-inline">
+      <div class="field">
+        <label for="label" class="p-sr-only">Label</label>
+        <input id="label" name="label" type="text" pInputText placeholder="Label" [(ngModel)]="newLabel.name" required>
+      </div>
+
+      <button pButton pRipple type="submit" label="Submit"></button>
+    </div>
+  </form>
+</p-card>
+
+<p-card [styleClass]="'mb-3'">
+  <div class="flex justify-content-evenly flex-wrap">
+    <button pButton pRipple type="button" label="Sync" (click)="sync()"></button>
+  </div>
+</p-card>
+
+<p-card [styleClass]="'mb-3'" *ngFor="let label of labels">
+  <div class="flex align-items-center">
+    <div class="flex-none align-items-center">
+      <i *ngIf="label.isDirty" class="fas fa-sync-alt not-synced" [class]="isSyncing ? 'fa-spin' : ''"></i>
+      <i *ngIf="!label.isDirty" class="fas fa-database synced"></i>
+    </div>
+
+    <div class="flex-grow-1 align-items-center pl-3">
+      <div class="flex pb-1">
+        <i class="fas fa-quote-right"></i>
+        <span class="pl-1 font-bold">{{label.name}}</span>
+      </div>
+      <div class="flex">
+        <i class="fas fa-clock"></i>
+        <span class="pl-1">{{label.updateDate | date:'medium'}}</span>
+      </div>
+    </div>
+
+    <div class="flex-none align-items-center">
+      <button pButton pRipple icon="pi pi-trash" type="button" class="p-button-raised p-button-danger"
+        (click)="delete(label)"></button>
+    </div>
+  </div>
+</p-card>
