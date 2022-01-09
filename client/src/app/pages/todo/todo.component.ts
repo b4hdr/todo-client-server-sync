@@ -60,22 +60,6 @@ export class TodoComponent implements OnInit {
     this.newTodo = {};
   }
 
-  sync() {
-    this.isSyncing = true;
-
-    this.todoService.sync()
-      .subscribe({
-        next: result => {
-          this.isSyncing = false;
-          console.log(result);
-          this.getTodos();
-        }, error: error => {
-          this.isSyncing = false;
-          console.log(error);
-        }
-      });
-  }
-
   filterByState(state: string) {
     this.state = state;
 

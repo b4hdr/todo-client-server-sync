@@ -114,48 +114,52 @@ export class TodoService implements Syncable {
 
         const observables = [];
 
-        observables.push(this.todoRemoteService.update(todosToUpdate)
-          .pipe(mergeMap((updatedResult => {
-            const observables3 = [];
+        if (todosToUpdate.length > 0) {
+          observables.push(this.todoRemoteService.update(todosToUpdate)
+            .pipe(mergeMap((updatedResult => {
+              const observables3 = [];
 
-            for (let index = 0; index < updatedResult.length; index++) {
-              const updatedTodo = updatedResult[index];
+              for (let index = 0; index < updatedResult.length; index++) {
+                const updatedTodo = updatedResult[index];
 
-              const updateValue = todosToUpdate[index];
-              updateValue.timestamp = updatedTodo.timestamp;
-              updateValue.isDirty = 0;
+                const updateValue = todosToUpdate[index];
+                updateValue.timestamp = updatedTodo.timestamp;
+                updateValue.isDirty = 0;
 
-              observables3.push(this.update(updateValue, false))
-            }
+                observables3.push(this.update(updateValue, false))
+              }
 
-            console.log('updatedResult', updatedResult);
+              console.log('updatedResult', updatedResult);
 
-            if (observables3.length == 0)
-              return of([])
+              if (observables3.length == 0)
+                return of([])
 
-            return forkJoin(observables3);
-          }))));
+              return forkJoin(observables3);
+            }))));
+        }
 
-        observables.push(this.todoRemoteService.add(todosToAdd)
-          .pipe(mergeMap((addedResult: any) => {
+        if (todosToAdd.length > 0) {
+          observables.push(this.todoRemoteService.add(todosToAdd)
+            .pipe(mergeMap((addedResult: any) => {
 
-            const observables2 = [];
+              const observables2 = [];
 
-            for (let index = 0; index < addedResult.length; index++) {
-              const addedTodo = addedResult[index];
+              for (let index = 0; index < addedResult.length; index++) {
+                const addedTodo = addedResult[index];
 
-              const updateValue = todosToAdd[index];
-              updateValue.serverKey = addedTodo._id;
-              updateValue.timestamp = addedTodo.timestamp;
-              updateValue.isDirty = 0;
+                const updateValue = todosToAdd[index];
+                updateValue.serverKey = addedTodo._id;
+                updateValue.timestamp = addedTodo.timestamp;
+                updateValue.isDirty = 0;
 
-              observables2.push(this.update(updateValue, false))
-            }
-            console.log('addedResult', addedResult);
-            if (observables2.length == 0)
-              return of([])
-            return forkJoin(observables2);
-          })));
+                observables2.push(this.update(updateValue, false))
+              }
+              console.log('addedResult', addedResult);
+              if (observables2.length == 0)
+                return of([])
+              return forkJoin(observables2);
+            })));
+        }
 
         if (observables.length == 0)
           return of([])

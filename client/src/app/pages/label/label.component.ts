@@ -48,20 +48,4 @@ export class LabelComponent implements OnInit {
   clearNewLabel() {
     this.newLabel = {};
   }
-
-  sync() {
-    this.isSyncing = true;
-
-    this.labelService.sync()
-      .subscribe({
-        next: result => {
-          this.isSyncing = false;
-          console.log(result);
-          this.getLabels();
-        }, error: error => {
-          this.isSyncing = false;
-          console.log(error);
-        }
-      });
-  }
 }

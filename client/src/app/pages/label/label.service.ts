@@ -108,48 +108,52 @@ export class LabelService implements Syncable {
 
         const observables = [];
 
-        observables.push(this.labelRemoteService.update(labelsToUpdate)
-          .pipe(mergeMap((updatedResult => {
-            const observables3 = [];
+        if (labelsToUpdate.length > 0) {
+          observables.push(this.labelRemoteService.update(labelsToUpdate)
+            .pipe(mergeMap((updatedResult => {
+              const observables3 = [];
 
-            for (let index = 0; index < updatedResult.length; index++) {
-              const updatedLabel = updatedResult[index];
+              for (let index = 0; index < updatedResult.length; index++) {
+                const updatedLabel = updatedResult[index];
 
-              const updateValue = labelsToUpdate[index];
-              updateValue.timestamp = updatedLabel.timestamp;
-              updateValue.isDirty = 0;
+                const updateValue = labelsToUpdate[index];
+                updateValue.timestamp = updatedLabel.timestamp;
+                updateValue.isDirty = 0;
 
-              observables3.push(this.update(updateValue, false))
-            }
+                observables3.push(this.update(updateValue, false))
+              }
 
-            console.log('updatedResult', updatedResult);
+              console.log('updatedResult', updatedResult);
 
-            if (observables3.length == 0)
-              return of([])
+              if (observables3.length == 0)
+                return of([])
 
-            return forkJoin(observables3);
-          }))));
+              return forkJoin(observables3);
+            }))));
+        }
 
-        observables.push(this.labelRemoteService.add(labelsToAdd)
-          .pipe(mergeMap((addedResult: any) => {
+        if (labelsToAdd.length > 0) {
+          observables.push(this.labelRemoteService.add(labelsToAdd)
+            .pipe(mergeMap((addedResult: any) => {
 
-            const observables2 = [];
+              const observables2 = [];
 
-            for (let index = 0; index < addedResult.length; index++) {
-              const addedLabel = addedResult[index];
+              for (let index = 0; index < addedResult.length; index++) {
+                const addedLabel = addedResult[index];
 
-              const updateValue = labelsToAdd[index];
-              updateValue.serverKey = addedLabel._id;
-              updateValue.timestamp = addedLabel.timestamp;
-              updateValue.isDirty = 0;
+                const updateValue = labelsToAdd[index];
+                updateValue.serverKey = addedLabel._id;
+                updateValue.timestamp = addedLabel.timestamp;
+                updateValue.isDirty = 0;
 
-              observables2.push(this.update(updateValue, false))
-            }
-            console.log('addedResult', addedResult);
-            if (observables2.length == 0)
-              return of([])
-            return forkJoin(observables2);
-          })));
+                observables2.push(this.update(updateValue, false))
+              }
+              console.log('addedResult', addedResult);
+              if (observables2.length == 0)
+                return of([])
+              return forkJoin(observables2);
+            })));
+        }
 
         if (observables.length == 0)
           return of([])

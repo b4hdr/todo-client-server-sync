@@ -11,12 +11,6 @@
   </form>
 </p-card>
 
-<p-card [styleClass]="'mb-3'">
-  <div class="flex justify-content-evenly flex-wrap">
-    <button pButton pRipple type="button" label="Sync" (click)="sync()"></button>
-  </div>
-</p-card>
-
 <p-card [styleClass]="'mb-3'" *ngFor="let label of labels">
   <div class="flex align-items-center">
     <div class="flex-none align-items-center">
