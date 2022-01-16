@@ -11,6 +11,10 @@
         <input id="description" name="description" type="text" pInputText placeholder="Description"
           [(ngModel)]="newTodo.description">
       </div>
+      <div class="field">
+        <label for="label" class="p-sr-only">Labels</label>
+        <p-multiSelect id="label" name="label" [options]="activeLabels" [(ngModel)]="newTodo.labelIds"></p-multiSelect>
+      </div>
 
       <button pButton pRipple type="submit" label="Submit"></button>
     </div>
@@ -40,6 +44,12 @@
       <div class="flex pb-1" *ngIf="!!todo.description">
         <i class="fas fa-align-center"></i>
         <span class="pl-1" [class]="todo.isCompleted ? 'line-through' : ''">{{todo.description}}</span>
+      </div>
+      <div class="flex pb-1" *ngIf="!!todo.selectedLabels && todo.selectedLabels.length > 0">
+        <i class="fas fa-tags"></i>
+        <span *ngFor="let label of todo.selectedLabels" class="pl-1" [class]="todo.isCompleted ? 'line-through' : ''">
+          <p-tag [value]="label" severity="success"></p-tag>
+        </span>
       </div>
       <div class="flex">
         <i class="fas fa-clock"></i>

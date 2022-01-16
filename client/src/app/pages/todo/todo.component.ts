@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Label } from '../label/label.model';
+import { LabelService } from '../label/label.service';
 import { ITodo } from './todo.model';
 import { TodoService } from './todo.service';
 
@@ -9,15 +11,34 @@ import { TodoService } from './todo.service';
 })
 export class TodoComponent implements OnInit {
   newTodo: ITodo = {};
-  todos: Array<ITodo> = [];
-  filteredTodos: Array<ITodo> = [];
+  todos: ITodo[] = [];
+  filteredTodos: ITodo[] = [];
   state: string = 'all';
+  labels: Label[] = [];
+  activeLabels: any[] = [];
   isSyncing: boolean = false;
 
-  constructor(private todoService: TodoService) { }
+  constructor(private todoService: TodoService,
+    private labelService: LabelService) { }
 
   ngOnInit() {
-    this.getTodos();
+    this.getLabels();
+    // this.getTodos();
+  }
+
+  getLabels() {
+    const filter = {};
+
+    this.labelService.get(filter)
+      .subscribe(labels => {
+        this.labels = labels;
+
+        this.activeLabels = labels
+          .filter(label => !label.isDeleted)
+          .map(label => { return { label: label.name, value: label.id } });
+
+        this.getTodos();
+      });
   }
 
   getTodos() {
@@ -25,6 +46,12 @@ export class TodoComponent implements OnInit {
       .subscribe(todos => {
         console.log(todos);
         this.todos = todos;
+
+        this.todos.forEach(todo => {
+          todo.selectedLabels = this.labels
+            .filter(label => todo.labelIds && todo.labelIds.indexOf(label.id) != -1)
+            .map(label => label.name);
+        });
 
         this.filterByState(this.state);
       });

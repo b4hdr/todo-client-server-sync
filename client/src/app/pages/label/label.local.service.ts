@@ -3,6 +3,7 @@ import { DbConnectionService } from 'src/app/service/dbconnection.service';
 import { from, map, Observable } from 'rxjs';
 import { TABLE_NAME_LABEL } from './label.table.model';
 import { Label } from './label.model';
+import { isEmpty } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class LabelLocalService {
   constructor(private dbConnectionService: DbConnectionService) { }
 
   get(filter?: any, query?: any): Observable<Label[]> {
-    const where = filter || { isDeleted: 0 };
+    const where = isEmpty(filter) ? null : (filter || { isDeleted: 0 });
 
     const promise = this.dbConnectionService.connection.select<Label>({
       from: this.tableName,

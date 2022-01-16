@@ -3,6 +3,7 @@ import { ITodo } from './todo.model';
 import { DbConnectionService } from 'src/app/service/dbconnection.service';
 import { from, map, Observable } from 'rxjs';
 import { TABLE_NAME_TODO } from './todo.table.model';
+import { isEmpty } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class TodoLocalService {
   constructor(private dbConnectionService: DbConnectionService) { }
 
   get(filter?: any, query?: any): Observable<ITodo[]> {
-    const where = filter || { isDeleted: 0 };
+    const where = isEmpty(filter) ? null : (filter || { isDeleted: 0 });
 
     const promise = this.dbConnectionService.connection.select<ITodo>({
       from: this.tableName,

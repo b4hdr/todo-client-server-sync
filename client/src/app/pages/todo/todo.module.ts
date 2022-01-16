@@ -6,6 +6,9 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from 'primeng/ripple';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { TagModule } from 'primeng/tag';
+
 
 import { TodoComponent } from './todo.component';
 import { TodoRoutingModule } from './todo.routing.module';
@@ -21,7 +24,9 @@ import { TodoRoutingModule } from './todo.routing.module';
     ButtonModule,
     CardModule,
     InputTextModule,
-    RippleModule
+    RippleModule,
+    MultiSelectModule,
+    TagModule
   ]
 })
 export class TodoModule { }

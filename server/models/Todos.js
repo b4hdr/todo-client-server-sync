@@ -12,6 +12,9 @@ const TodoSchema = new Schema({
     isCompleted: {
         type: Boolean
     },
+    labelIds: [{
+        type: String
+    }],
     createDate: {
         type: Date,
         default: Date.now,

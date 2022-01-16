@@ -1,5 +1,5 @@
 export class Label {
-	id?: number;
+	id?: string;
 	serverKey?: string;
 	name?: string;
 	createDate?: Date;

@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~13.1.0",
+    "@angular/cdk": "^13.1.1",
     "@angular/common": "~13.1.0",
     "@angular/compiler": "~13.1.0",
     "@angular/core": "~13.1.0",
@@ -20,6 +21,7 @@
     "@angular/router": "~13.1.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "jsstore": "^4.3.7",
+    "lodash": "^4.17.21",
     "primeflex": "^3.1.2",
     "primeicons": "^5.0.0",
     "primeng": "^13.0.4",
@@ -32,6 +34,7 @@
     "@angular/cli": "~13.1.2",
     "@angular/compiler-cli": "~13.1.0",
     "@types/jasmine": "~3.10.0",
+    "@types/lodash": "^4.14.178",
     "@types/node": "^12.11.1",
     "file-loader": "^6.2.0",
     "jasmine-core": "~3.10.0",
